@@ -63,68 +63,71 @@ const SignUp = () => {
   };
 
   return (
-    <section id='signup'>
-      <div className='mx-auto container p-4'>
-        <div className='bg-white p-5 w-full max-w-sm mx-auto'>
-          <form className='pt-6 flex flex-col gap-2' onSubmit={handleSubmit}>
-            <div className='grid'>
+    <section id="signup">
+      <div className="mx-auto container p-4">
+        <div className="bg-white p-5 w-full max-w-sm mx-auto">
+          <form className="pt-6 flex flex-col gap-2" onSubmit={handleSubmit}>
+            <div className="grid">
               <label>Name:</label>
-              <div className='bg-slate-100 p-2'>
+              <div className="bg-slate-100 p-2">
                 <input
-                  type='text'
-                  placeholder='Enter your name'
-                  name='name'
+                  type="text"
+                  placeholder="Enter your name"
+                  name="name"
                   value={data.name}
                   onChange={handleOnChange}
                   required
-                  className='w-full h-full outline-none bg-transparent'
+                  className="w-full h-full outline-none bg-transparent"
                 />
               </div>
             </div>
 
-            <div className='grid'>
+            <div className="grid">
               <label>Email:</label>
-              <div className='bg-slate-100 p-2'>
+              <div className="bg-slate-100 p-2">
                 <input
-                  type='email'
-                  placeholder='Enter email'
-                  name='email'
+                  type="email"
+                  placeholder="Enter email"
+                  name="email"
                   value={data.email}
                   onChange={handleOnChange}
                   required
-                  className='w-full h-full outline-none bg-transparent'
+                  className="w-full h-full outline-none bg-transparent"
                 />
               </div>
             </div>
 
-            <div className='grid'>
+            <div className="grid">
               <label>Phone Number:</label>
-              <div className='bg-slate-100 p-2'>
+              <div className="bg-slate-100 p-2">
                 <input
-                  type='text'
-                  placeholder='Enter phone number'
-                  name='phoneNo'
+                  type="text"
+                  placeholder="Enter phone number"
+                  name="phoneNo"
                   value={data.phoneNo}
                   onChange={handleOnChange}
                   required
-                  className='w-full h-full outline-none bg-transparent'
+                  className="w-full h-full outline-none bg-transparent"
                 />
               </div>
             </div>
 
             <div>
               <label>Password:</label>
-              <div className='bg-slate-100 p-2 flex'>
+              <div className="bg-slate-100 p-2 flex">
                 <input
                   type={showPassword ? "text" : "password"}
-                  placeholder='Enter password'
+                  placeholder="Enter password"
                   value={data.password}
-                  name='password'
+                  name="password"
                   onChange={handleOnChange}
                   required
-                  className='w-full h-full outline-none bg-transparent'
+                  className="w-full h-full outline-none bg-transparent"
                 />
-                <div className='cursor-pointer text-xl' onClick={() => setShowPassword((prev) => !prev)}>
+                <div
+                  className="cursor-pointer text-xl"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                >
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </div>
               </div>
@@ -132,29 +135,37 @@ const SignUp = () => {
 
             <div>
               <label>Confirm Password:</label>
-              <div className='bg-slate-100 p-2 flex'>
+              <div className="bg-slate-100 p-2 flex">
                 <input
                   type={showConfirmPassword ? "text" : "password"}
-                  placeholder='Confirm password'
+                  placeholder="Confirm password"
                   value={data.confirmPassword}
-                  name='confirmPassword'
+                  name="confirmPassword"
                   onChange={handleOnChange}
                   required
-                  className='w-full h-full outline-none bg-transparent'
+                  className="w-full h-full outline-none bg-transparent"
                 />
-                <div className='cursor-pointer text-xl' onClick={() => setShowConfirmPassword((prev) => !prev)}>
+                <div
+                  className="cursor-pointer text-xl"
+                  onClick={() => setShowConfirmPassword((prev) => !prev)}
+                >
                   {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                 </div>
               </div>
             </div>
 
-            <button className='bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded' type='submit'>
+            <button
+              className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded"
+              type="submit"
+            >
               Sign Up
             </button>
 
-            <p className='text-center'>
-              Already have an account?{' '}
-              <Link to='/login' className='text-blue-500'>Log in</Link>
+            <p className="text-center">
+              Already have an account?{" "}
+              <Link to="/login" className="text-blue-500">
+                Log in
+              </Link>
             </p>
           </form>
         </div>
