@@ -24,7 +24,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch(SummaryApi.signIn.url, {
         method: SummaryApi.signIn.method,
@@ -34,9 +34,9 @@ const Login = () => {
         },
         body: JSON.stringify(data),
       });
-  
+
       const dataApi = await response.json();
-  
+
       if (dataApi.success) {
         toast.success(dataApi.message);
         if (fetchUserDetails) {
@@ -52,64 +52,62 @@ const Login = () => {
       toast.error('Something went wrong. Please try again later.');
     }
   };
-  
+
   return (
-    <section id="login">
-      <div className="mx-auto container p-4">
-        <div className="bg-white p-5 w-full max-w-sm mx-auto">
-          <form className="pt-6 flex flex-col gap-2" onSubmit={handleSubmit}>
-            <div className="grid">
-              <label>Email:</label>
-              <div className="bg-slate-100 p-2">
-                <input
-                  type="email"
-                  placeholder="Enter email"
-                  name="email"
-                  value={data.email}
-                  onChange={handleOnChange}
-                  className="w-full h-full outline-none bg-transparent"
-                  required
-                />
+    <section id="login" className="flex justify-center items-center min-h-screen bg-white">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8 border border-gray-300">
+        <h2 className="text-2xl font-semibold text-center text-gray-800">Login</h2>
+        <p className="text-sm text-center text-gray-600 mb-6">Welcome back! Please login to your account.</p>
+
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+          <div className="relative">
+            <label className="text-sm font-medium text-gray-700">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={data.email}
+              onChange={handleOnChange}
+              placeholder="Enter your email"
+              className="w-full p-3 mt-2 text-gray-800 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
+              required
+            />
+          </div>
+
+          <div className="relative">
+            <label className="text-sm font-medium text-gray-700">Password</label>
+            <div className="relative flex items-center">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                value={data.password}
+                onChange={handleOnChange}
+                placeholder="Enter your password"
+                className="w-full p-3 mt-2 text-gray-800 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
+                required
+              />
+              <div
+                className="absolute right-3 top-3 text-gray-600 cursor-pointer"
+                onClick={() => setShowPassword((prev) => !prev)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
               </div>
             </div>
+          </div>
 
-            <div>
-              <label>Password:</label>
-              <div className="bg-slate-100 p-2 flex items-center">
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Enter password"
-                  value={data.password}
-                  name="password"
-                  onChange={handleOnChange}
-                  className="w-full h-full outline-none bg-transparent"
-                  required
-                />
-                <div
-                  className="cursor-pointer text-lg ml-2"
-                  onClick={() => setShowPassword((prev) => !prev)}
-                >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </div>
-              </div>
-              
-            </div>
+          <button
+            type="submit"
+            className="w-full py-3 mt-4 bg-gray-800 hover:bg-gray-900 text-white rounded-lg font-semibold text-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all"
+          >
+            Login
+          </button>
+        </form>
 
-            <button
-              type="submit"
-              className="bg-green-500 hover:bg-green-700 text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-105 transition-all mx-auto block mt-4"
-            >
-              Login
-            </button>
-          </form>
-
-          <p className="my-4 text-center">
-            Don't have an account?{' '}
-            <Link to="/sign-up" className="hover:underline hover:text-green-900">
-              Sign up
-            </Link>
-          </p>
-        </div>
+        <p className="mt-6 text-center text-gray-600">
+          Don't have an account?{' '}
+          <Link to="/sign-up" className="text-gray-800 font-medium hover:underline">
+            Sign up
+          </Link>
+        </p>
       </div>
     </section>
   );
