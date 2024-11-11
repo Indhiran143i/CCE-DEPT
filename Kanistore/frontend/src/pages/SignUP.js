@@ -63,13 +63,13 @@ const SignUp = () => {
   };
 
   return (
-    <section id="signup">
+    <section id="signup" className="bg-gray-50 py-8">
       <div className="mx-auto container p-4">
-        <div className="bg-white p-5 w-full max-w-sm mx-auto">
-          <form className="pt-6 flex flex-col gap-2" onSubmit={handleSubmit}>
+        <div className="bg-white p-6 shadow-lg rounded-lg w-full max-w-md mx-auto">
+          <form className="pt-6 flex flex-col gap-4" onSubmit={handleSubmit}>
             <div className="grid">
-              <label>Name:</label>
-              <div className="bg-slate-100 p-2">
+              <label className="text-sm font-medium text-gray-700">Name:</label>
+              <div className="bg-slate-100 p-2 rounded">
                 <input
                   type="text"
                   placeholder="Enter your name"
@@ -77,14 +77,14 @@ const SignUp = () => {
                   value={data.name}
                   onChange={handleOnChange}
                   required
-                  className="w-full h-full outline-none bg-transparent"
+                  className="w-full h-full outline-none bg-transparent text-gray-700"
                 />
               </div>
             </div>
 
             <div className="grid">
-              <label>Email:</label>
-              <div className="bg-slate-100 p-2">
+              <label className="text-sm font-medium text-gray-700">Email:</label>
+              <div className="bg-slate-100 p-2 rounded">
                 <input
                   type="email"
                   placeholder="Enter email"
@@ -92,14 +92,14 @@ const SignUp = () => {
                   value={data.email}
                   onChange={handleOnChange}
                   required
-                  className="w-full h-full outline-none bg-transparent"
+                  className="w-full h-full outline-none bg-transparent text-gray-700"
                 />
               </div>
             </div>
 
             <div className="grid">
-              <label>Phone Number:</label>
-              <div className="bg-slate-100 p-2">
+              <label className="text-sm font-medium text-gray-700">Phone Number:</label>
+              <div className="bg-slate-100 p-2 rounded">
                 <input
                   type="text"
                   placeholder="Enter phone number"
@@ -107,14 +107,14 @@ const SignUp = () => {
                   value={data.phoneNo}
                   onChange={handleOnChange}
                   required
-                  className="w-full h-full outline-none bg-transparent"
+                  className="w-full h-full outline-none bg-transparent text-gray-700"
                 />
               </div>
             </div>
 
-            <div>
-              <label>Password:</label>
-              <div className="bg-slate-100 p-2 flex">
+            <div className="grid">
+              <label className="text-sm font-medium text-gray-700">Password:</label>
+              <div className="bg-slate-100 p-2 flex items-center rounded">
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter password"
@@ -122,10 +122,10 @@ const SignUp = () => {
                   name="password"
                   onChange={handleOnChange}
                   required
-                  className="w-full h-full outline-none bg-transparent"
+                  className="w-full h-full outline-none bg-transparent text-gray-700"
                 />
                 <div
-                  className="cursor-pointer text-xl"
+                  className="cursor-pointer text-xl text-gray-600 ml-2"
                   onClick={() => setShowPassword((prev) => !prev)}
                 >
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
@@ -133,9 +133,9 @@ const SignUp = () => {
               </div>
             </div>
 
-            <div>
-              <label>Confirm Password:</label>
-              <div className="bg-slate-100 p-2 flex">
+            <div className="grid">
+              <label className="text-sm font-medium text-gray-700">Confirm Password:</label>
+              <div className="bg-slate-100 p-2 flex items-center rounded">
                 <input
                   type={showConfirmPassword ? "text" : "password"}
                   placeholder="Confirm password"
@@ -143,10 +143,10 @@ const SignUp = () => {
                   name="confirmPassword"
                   onChange={handleOnChange}
                   required
-                  className="w-full h-full outline-none bg-transparent"
+                  className="w-full h-full outline-none bg-transparent text-gray-700"
                 />
                 <div
-                  className="cursor-pointer text-xl"
+                  className="cursor-pointer text-xl text-gray-600 ml-2"
                   onClick={() => setShowConfirmPassword((prev) => !prev)}
                 >
                   {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
@@ -155,15 +155,15 @@ const SignUp = () => {
             </div>
 
             <button
-              className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded"
+              className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded mt-4"
               type="submit"
             >
               Sign Up
             </button>
 
-            <p className="text-center">
-              Already have an account?{" "}
-              <Link to="/login" className="text-blue-500">
+            <p className="text-center text-sm text-gray-600 mt-4">
+              Already have an account?{' '}
+              <Link to="/login" className="text-blue-500 hover:underline">
                 Log in
               </Link>
             </p>
