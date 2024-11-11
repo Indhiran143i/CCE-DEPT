@@ -63,112 +63,107 @@ const SignUp = () => {
   };
 
   return (
-    <section id="signup" className="bg-gray-50 py-8">
-      <div className="mx-auto container p-4">
-        <div className="bg-white p-6 shadow-lg rounded-lg w-full max-w-md mx-auto">
-          <form className="pt-6 flex flex-col gap-4" onSubmit={handleSubmit}>
-            <div className="grid">
-              <label className="text-sm font-medium text-gray-700">Name:</label>
-              <div className="bg-slate-100 p-2 rounded">
-                <input
-                  type="text"
-                  placeholder="Enter your name"
-                  name="name"
-                  value={data.name}
-                  onChange={handleOnChange}
-                  required
-                  className="w-full h-full outline-none bg-transparent text-gray-700"
-                />
+    <section id="signup" className="flex justify-center items-center min-h-screen bg-gray-50">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8 border border-gray-300">
+        <h2 className="text-2xl font-semibold text-center text-gray-800">Sign Up</h2>
+        <p className="text-sm text-center text-gray-600 mb-6">Create your account to get started.</p>
+
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+          <div className="relative">
+            <label className="text-sm font-medium text-gray-700">Name</label>
+            <input
+              type="text"
+              name="name"
+              value={data.name}
+              onChange={handleOnChange}
+              placeholder="Enter your name"
+              className="w-full p-3 mt-2 text-gray-800 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
+              required
+            />
+          </div>
+
+          <div className="relative">
+            <label className="text-sm font-medium text-gray-700">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={data.email}
+              onChange={handleOnChange}
+              placeholder="Enter your email"
+              className="w-full p-3 mt-2 text-gray-800 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
+              required
+            />
+          </div>
+
+          <div className="relative">
+            <label className="text-sm font-medium text-gray-700">Phone Number</label>
+            <input
+              type="text"
+              name="phoneNo"
+              value={data.phoneNo}
+              onChange={handleOnChange}
+              placeholder="Enter your phone number"
+              className="w-full p-3 mt-2 text-gray-800 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
+              required
+            />
+          </div>
+
+          <div className="relative">
+            <label className="text-sm font-medium text-gray-700">Password</label>
+            <div className="relative flex items-center">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={data.password}
+                onChange={handleOnChange}
+                placeholder="Enter your password"
+                className="w-full p-3 mt-2 text-gray-800 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
+                required
+              />
+              <div
+                className="absolute right-3 top-3 text-gray-600 cursor-pointer"
+                onClick={() => setShowPassword((prev) => !prev)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
               </div>
             </div>
+          </div>
 
-            <div className="grid">
-              <label className="text-sm font-medium text-gray-700">Email:</label>
-              <div className="bg-slate-100 p-2 rounded">
-                <input
-                  type="email"
-                  placeholder="Enter email"
-                  name="email"
-                  value={data.email}
-                  onChange={handleOnChange}
-                  required
-                  className="w-full h-full outline-none bg-transparent text-gray-700"
-                />
+          <div className="relative">
+            <label className="text-sm font-medium text-gray-700">Confirm Password</label>
+            <div className="relative flex items-center">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirmPassword"
+                value={data.confirmPassword}
+                onChange={handleOnChange}
+                placeholder="Confirm your password"
+                className="w-full p-3 mt-2 text-gray-800 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
+                required
+              />
+              <div
+                className="absolute right-3 top-3 text-gray-600 cursor-pointer"
+                onClick={() => setShowConfirmPassword((prev) => !prev)}
+              >
+                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
               </div>
             </div>
+          </div>
 
-            <div className="grid">
-              <label className="text-sm font-medium text-gray-700">Phone Number:</label>
-              <div className="bg-slate-100 p-2 rounded">
-                <input
-                  type="text"
-                  placeholder="Enter phone number"
-                  name="phoneNo"
-                  value={data.phoneNo}
-                  onChange={handleOnChange}
-                  required
-                  className="w-full h-full outline-none bg-transparent text-gray-700"
-                />
-              </div>
-            </div>
+          <button
+            type="submit"
+            className="w-full py-3 mt-4 bg-gray-800 hover:bg-gray-900 text-white rounded-lg font-semibold text-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all"
+          >
+            Sign Up
+          </button>
+        </form>
 
-            <div className="grid">
-              <label className="text-sm font-medium text-gray-700">Password:</label>
-              <div className="bg-slate-100 p-2 flex items-center rounded">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter password"
-                  value={data.password}
-                  name="password"
-                  onChange={handleOnChange}
-                  required
-                  className="w-full h-full outline-none bg-transparent text-gray-700"
-                />
-                <div
-                  className="cursor-pointer text-xl text-gray-600 ml-2"
-                  onClick={() => setShowPassword((prev) => !prev)}
-                >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </div>
-              </div>
-            </div>
-
-            <div className="grid">
-              <label className="text-sm font-medium text-gray-700">Confirm Password:</label>
-              <div className="bg-slate-100 p-2 flex items-center rounded">
-                <input
-                  type={showConfirmPassword ? "text" : "password"}
-                  placeholder="Confirm password"
-                  value={data.confirmPassword}
-                  name="confirmPassword"
-                  onChange={handleOnChange}
-                  required
-                  className="w-full h-full outline-none bg-transparent text-gray-700"
-                />
-                <div
-                  className="cursor-pointer text-xl text-gray-600 ml-2"
-                  onClick={() => setShowConfirmPassword((prev) => !prev)}
-                >
-                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                </div>
-              </div>
-            </div>
-
-            <button
-              className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded mt-4"
-              type="submit"
-            >
-              Sign Up
-            </button>
-
-            <p className="text-center text-sm text-gray-600 mt-4">
-              Already have an account?{' '}
-              <Link to="/login" className="text-blue-500 hover:underline">
-                Log in
-              </Link>
-            </p>
-          </form>
-        </div>
+        <p className="mt-6 text-center text-gray-600">
+          Already have an account?{' '}
+          <Link to="/login" className="text-gray-800 font-medium hover:underline">
+            Log in
+          </Link>
+        </p>
       </div>
     </section>
   );
