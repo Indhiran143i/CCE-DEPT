@@ -367,7 +367,7 @@
                     const orderResponse = await fetch(`${BACKEND_URL}/createOrder`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ amount: 100 }) // ₹1.00 for testing
+                        body: JSON.stringify({ amount: 1 }) // ₹1.00 for testing
                     });
                     
                     if (!orderResponse.ok) throw new Error('Order creation failed');
