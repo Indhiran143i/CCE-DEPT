@@ -24,7 +24,6 @@ app.use((req, res, next) => {
 app.use(cors({
   origin: [
     "http://localhost:3000",
-    "https://bhogan-hpdi.vercel.app",
       "https://polo-marathon-registration-phi.vercel.app"
   ],
   credentials: true,
