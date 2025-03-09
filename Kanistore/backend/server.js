@@ -25,8 +25,7 @@ app.use(cors({
   origin: [
     "http://localhost:3000",
     "https://bhogan-hpdi.vercel.app",
-    "https://bhogan.vercel.app",
-     "https://registration-polo-marathon.vercel.app"
+      "https://polo-marathon-registration-phi.vercel.app"
   ],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE"],
