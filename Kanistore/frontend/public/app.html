@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Polo Marathon Registration</title>
-
-    
-    
-<style>
+    <style>
+        /* Your existing CSS styles */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -22,7 +20,7 @@
 
         .hero {
             height: 100vh;
-            background-image: url('./background.jpg');
+            background-image: url('/background.jpg'); /* Ensure this path is correct */
             background-size: cover;
             background-position: center;
             display: flex;
@@ -256,9 +254,9 @@
         <p>&copy; 2025 Bhogan Mediasoft. All rights reserved.</p>
     </footer>
 
-       <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Add backend base URL (update with your actual backend URL)
+            // Backend URL from environment variable (configure in Vercel)
             const BACKEND_URL = 'https://bhogan-hpdi.vercel.app';
 
             // Load external scripts
@@ -277,59 +275,57 @@
                 if (window.WOW) new WOW().init();
             };
 
-            // Form validation (keep existing validation code the same)
-            // Add validation function
-    function validateForm(formData) {
-        const errors = {};
+            // Form validation
+            function validateForm(formData) {
+                const errors = {};
 
-        // Clear previous errors
-        document.querySelectorAll('.error').forEach(el => el.textContent = '');
+                // Clear previous errors
+                document.querySelectorAll('.error').forEach(el => el.textContent = '');
 
-        // Name validation
-        if (!formData.name.trim()) {
-            errors.name = 'Name is required';
-        } else if (formData.name.trim().length < 3) {
-            errors.name = 'Name must be at least 3 characters';
-        }
+                // Name validation
+                if (!formData.name.trim()) {
+                    errors.name = 'Name is required';
+                } else if (formData.name.trim().length < 3) {
+                    errors.name = 'Name must be at least 3 characters';
+                }
 
-        // Email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!formData.email) {
-            errors.email = 'Email is required';
-        } else if (!emailRegex.test(formData.email)) {
-            errors.email = 'Invalid email format';
-        }
+                // Email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!formData.email) {
+                    errors.email = 'Email is required';
+                } else if (!emailRegex.test(formData.email)) {
+                    errors.email = 'Invalid email format';
+                }
 
-        // Phone validation
-        const phoneRegex = /^[6-9]\d{9}$/;
-        if (!formData.phone) {
-            errors.phone = 'Phone number is required';
-        } else if (!phoneRegex.test(formData.phone)) {
-            errors.phone = 'Invalid Indian phone number';
-        }
+                // Phone validation
+                const phoneRegex = /^[6-9]\d{9}$/;
+                if (!formData.phone) {
+                    errors.phone = 'Phone number is required';
+                } else if (!phoneRegex.test(formData.phone)) {
+                    errors.phone = 'Invalid Indian phone number';
+                }
 
-        // Age validation
-        if (!formData.age) {
-            errors.age = 'Age is required';
-        } else if (isNaN(formData.age) || formData.age < 18 || formData.age > 100) {
-            errors.age = 'Age must be between 18 and 100';
-        }
+                // Age validation
+                if (!formData.age) {
+                    errors.age = 'Age is required';
+                } else if (isNaN(formData.age) || formData.age < 18 || formData.age > 100) {
+                    errors.age = 'Age must be between 18 and 100';
+                }
 
-        // Gender validation
-        if (!formData.gender) {
-            errors.gender = 'Gender selection is required';
-        }
+                // Gender validation
+                if (!formData.gender) {
+                    errors.gender = 'Gender selection is required';
+                }
 
-        // Category validation
-        if (!formData.category) {
-            errors.category = 'Run category is required';
-        }
+                // Category validation
+                if (!formData.category) {
+                    errors.category = 'Run category is required';
+                }
 
-        return errors;
-    }
+                return errors;
+            }
 
-
-            // Handle form submission - UPDATED API ENDPOINTS
+            // Handle form submission
             document.getElementById('registrationForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
                 const submitButton = document.getElementById('payNow');
@@ -472,6 +468,5 @@
             });
         });
     </script>
-
 </body>
 </html>
