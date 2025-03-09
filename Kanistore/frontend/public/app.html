@@ -329,13 +329,14 @@
     }
 
 
-            // Handle form submission - UPDATED API ENDPOINTS
+            // Form validation and submission handler
             document.getElementById('registrationForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
                 const submitButton = document.getElementById('payNow');
                 submitButton.disabled = true;
                 submitButton.textContent = 'Processing...';
 
+                // Form data collection
                 const formData = {
                     name: e.target.name.value.trim(),
                     email: e.target.email.value.trim(),
@@ -345,11 +346,11 @@
                     category: e.target.category.value
                 };
 
+                // Validation logic
                 const errors = validateForm(formData);
                 if (Object.keys(errors).length > 0) {
                     Object.entries(errors).forEach(([field, message]) => {
-                        const errorElement = document.getElementById(`${field}Error`);
-                        if (errorElement) errorElement.textContent = message;
+                        document.getElementById(`${field}Error`).textContent = message;
                     });
                     submitButton.disabled = false;
                     submitButton.textContent = 'Register Now';
@@ -357,119 +358,96 @@
                 }
 
                 try {
-                    // Get Razorpay key from backend
+                    // Get Razorpay key
                     const keyResponse = await fetch(`${BACKEND_URL}/get-razorpay-key`);
-                    if (!keyResponse.ok) {
-                        const errorText = await keyResponse.text();
-                        throw new Error(`Failed to fetch Razorpay key: ${errorText}`);
-                    }
+                    if (!keyResponse.ok) throw new Error('Failed to get Razorpay key');
                     const { key } = await keyResponse.json();
 
-                    // Create payment order
+                    // Create order
                     const orderResponse = await fetch(`${BACKEND_URL}/createOrder`, {
                         method: 'POST',
-                        headers: { 
-                            'Content-Type': 'application/json',
-                            'Authorization': 'Bearer your-auth-token-if-needed'
-                        },
-                        body: JSON.stringify({ 
-                            amount: 1, // Amount in paise (₹1 = 100 paise)
-                            currency: 'INR'
-                        })
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ amount: 100 }) // ₹1.00 for testing
                     });
-
-                    if (!orderResponse.ok) {
-                        const errorText = await orderResponse.text();
-                        throw new Error(`Order creation failed: ${errorText}`);
-                    }
+                    
+                    if (!orderResponse.ok) throw new Error('Order creation failed');
                     const order = await orderResponse.json();
 
-                    // Configure Razorpay options
+                    // Razorpay configuration
                     const options = {
                         key,
                         amount: order.amount,
                         currency: order.currency,
                         name: 'Polo Marathon',
-                        description: `Marathon Registration (${formData.category})`,
+                        description: `Registration - ${formData.category}`,
                         order_id: order.id,
                         handler: async function(response) {
                             try {
-                                if (!response.razorpay_payment_id) {
-                                    throw new Error('Payment failed or cancelled');
-                                }
-
-                                // Send registration data to backend
-                                const registrationData = {
-                                    ...formData,
-                                    paymentId: response.razorpay_payment_id,
-                                    orderId: response.razorpay_order_id,
-                                    signature: response.razorpay_signature
-                                };
-
-                                const registerResponse = await fetch(`${BACKEND_URL}/api/auth/register`, {
+                                // Verify payment
+                                const verificationResponse = await fetch(`${BACKEND_URL}/verify-payment`, {
                                     method: 'POST',
-                                    headers: { 
-                                        'Content-Type': 'application/json',
-                                        'Authorization': 'Bearer your-auth-token-if-needed'
-                                    },
-                                    body: JSON.stringify(registrationData)
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        paymentId: response.razorpay_payment_id,
+                                        orderId: response.razorpay_order_id,
+                                        signature: response.razorpay_signature
+                                    })
+                                });
+                                
+                                if (!verificationResponse.ok) throw new Error('Payment verification failed');
+
+                                // Complete registration
+                                const registrationResponse = await fetch(`${BACKEND_URL}/api/auth/register`, {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        ...formData,
+                                        paymentId: response.razorpay_payment_id
+                                    })
                                 });
 
-                                const result = await registerResponse.json();
-                                
-                                if (!registerResponse.ok) {
-                                    throw new Error(result.message || 'Registration failed');
-                                }
-
-                                // Show success message
-                                const successMessage = document.getElementById('successMessage');
-                                successMessage.style.display = 'block';
-                                successMessage.innerHTML = `
-                                    <h3>Registration Successful!</h3>
-                                    <p>Chest Number: ${result.chestNumber}</p>
-                                    <p>Transaction ID: ${response.razorpay_payment_id}</p>
-                                    <p>Check your email (${formData.email}) for confirmation details</p>
-                                `;
-
-                                // Reset form
+                                const result = await registrationResponse.json();
+                                showSuccessMessage(result, response);
                                 e.target.reset();
                             } catch (error) {
-                                console.error('Registration error:', error);
-                                alert(`❌ Error: ${error.message}`);
+                                handleError(error);
                             }
                         },
-                        prefill: {
-                            name: formData.name,
-                            email: formData.email,
-                            contact: formData.phone
-                        },
-                        theme: {
-                            color: '#3399cc',
-                            hide_topbar: true
-                        },
-                        modal: {
-                            ondismiss: function() {
-                                alert('Payment cancelled by user');
-                            }
-                        }
+                        // ... rest of Razorpay options
                     };
 
-                    const razorpay = new Razorpay(options);
-                    
-                    razorpay.on('payment.failed', function(response) {
-                        alert(`Payment failed: ${response.error.description}`);
-                    });
-
-                    razorpay.open();
+                    const rzp = new Razorpay(options);
+                    rzp.open();
 
                 } catch (error) {
-                    console.error('Payment error:', error);
-                    alert(`❌ Error: ${error.message}`);
+                    handleError(error);
                 } finally {
                     submitButton.disabled = false;
                     submitButton.textContent = 'Register Now';
                 }
             });
+
+            function showSuccessMessage(result, paymentResponse) {
+                const successMessage = document.getElementById('successMessage');
+                successMessage.style.display = 'block';
+                successMessage.innerHTML = `
+                    <h3>Registration Successful!</h3>
+                    <p>Chest Number: ${result.chestNumber}</p>
+                    <p>Transaction ID: ${paymentResponse.razorpay_payment_id}</p>
+                    <p>Confirmation sent to: ${formData.email}</p>
+                `;
+            }
+
+            function handleError(error) {
+                console.error('Error:', error);
+                alert(`Error: ${error.message}`);
+                // Log error to backend
+                fetch(`${BACKEND_URL}/log-error`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ error: error.message })
+                });
+            }
         });
     </script>
 
